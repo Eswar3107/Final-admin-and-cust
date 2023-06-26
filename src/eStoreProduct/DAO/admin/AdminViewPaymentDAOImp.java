@@ -29,18 +29,18 @@ public class AdminViewPaymentDAOImp implements AdminViewPaymentDAO{
 		return jdbcTemplate.query(get_payments, new AdminViewPaymentsMapper());
 		
 	}
-	public List<AdminViewPayments> getDatePayments(Timestamp date1,Timestamp date2) {
+	public List<AdminViewPayments> getPaymentsBetweenDates(Timestamp date1,Timestamp date2) {
 		return jdbcTemplate.query(get_Between_dates, new AdminViewPaymentsMapper(),date1,date2);
 		
 		//return null;
 	}
 	
-	public List<AdminViewPayments> getFilterPayments(double p1,double p2)
+	public List<AdminViewPayments> getPaymentsInThePriceRange(double p1,double p2)
 	{
 		return jdbcTemplate.query(get_filter_payments, new AdminViewPaymentsMapper(),p1,p2);
 	}
 	
-	public List<AdminViewPayments> getMaxPrice(double p1)
+	public List<AdminViewPayments> getMaxPricePayment(double p1)
 	{
 		return jdbcTemplate.query(get_max_payments, new AdminViewPaymentsMapper(),p1);
 	}
