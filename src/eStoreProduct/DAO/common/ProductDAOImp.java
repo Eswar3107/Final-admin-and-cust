@@ -21,6 +21,7 @@ public class ProductDAOImp implements ProductDAO {
 	@PersistenceContext
 	private EntityManager entityManager;
 
+	//getting the latest product id 
 	@Override
 	@Transactional
 	public Integer getMaxProductId() {
@@ -30,58 +31,63 @@ public class ProductDAOImp implements ProductDAO {
 		return maxId != null ? maxId : 0;
 	}
 
+	//method to add a new product 
 	@Override
 	@Transactional
 	public boolean createProduct(Product p) {
+		//get the latest productid and add new product by incrementing
 		int p_id = getMaxProductId();
-
 		p_id = p_id + 1;
-		System.out.println(p_id + "product_id\n");
-		System.out.println(p.getProd_title() + " " + p.getProd_gstc_id() + " " + p.getProd_brand() + " "
-				+ p.getImage_url() + " " + p.getProd_desc() + " " + p.getReorderLevel());
-
 		productsModel productEntity = new productsModel();
+		//set the product attributes
 		productEntity.setId(p_id);
 		productEntity.setTitle(p.getProd_title());
 		productEntity.setProductCategory(p.getProd_prct_id());
 		productEntity.setHsnCode(p.getProd_gstc_id());
 		productEntity.setBrand(p.getProd_brand());
-
 		productEntity.setImageUrl(p.getImage_url());
 		productEntity.setDescription(p.getProd_desc());
 		productEntity.setReorderLevel(p.getReorderLevel());
+		//execute query to save in database
 		entityManager.merge(productEntity);
 
 		return productEntity.getId() != null;
 
 	}
 
+	//get the product by its id
 	@Override
 	@Transactional
 	public productsModel getProductModelById(int prodid) {
+		//execute query
 		productsModel pm = entityManager.find(productsModel.class, prodid);
 		return pm;
 	}
 
+	//method to get all the available products
 	@Override
 	@Transactional
 	public List<ProductStockPrice> getAllProducts() {
 		String query = "SELECT new eStoreProduct.utility.ProductStockPrice(p.id, p.title, p.brand, p.imageUrl, p.description, ps.price)"
 				+ " FROM eStoreProduct.model.admin.entities.productsModel p JOIN eStoreProduct.model.admin.entities.productStockModel ps ON p.id = ps.product";
+		//create JPA query and execute
 		TypedQuery<ProductStockPrice> typedQuery = entityManager.createQuery(query, ProductStockPrice.class);
 		return typedQuery.getResultList();
 	}
 
+	//method to get all the available categories along withthe details
 	@Override
 	@Transactional
 	public List<Category> getAllCategories() {
 		String query = "SELECT new eStoreProduct.model.admin.input.Category(c.id, c.prct_title, c.description)"
 				+ " FROM eStoreProduct.model.admin.entities.productCategoryModel c";
 
+		//create JPA query and execute
 		TypedQuery<Category> typedQuery = entityManager.createQuery(query, Category.class);
 		return typedQuery.getResultList();
 	}
 
+	//method to get products based on the categories selected
 	@Override
 	@Transactional
 	public List<ProductStockPrice> getProductsByCategory(Integer category_id) {
@@ -93,6 +99,7 @@ public class ProductDAOImp implements ProductDAO {
 		return typedQuery.getResultList();
 	}
 
+	//method to get the product by its id
 	@Override
 	@Transactional
 	public ProductStockPrice getProductById(Integer productId) {
@@ -103,6 +110,7 @@ public class ProductDAOImp implements ProductDAO {
 		return psp;
 	}
 
+	//method to getall the products categories available
 	@Override
 	@Transactional
 	public List<String> getAllProductCategories() {
@@ -111,18 +119,7 @@ public class ProductDAOImp implements ProductDAO {
 		return typedQuery.getResultList();
 	}
 
-	/*
-	 * @Override
-	 * 
-	 * @Transactional public List<ProductStockPrice> sortProductsByPrice(List<ProductStockPrice> productList, String
-	 * sortOrder) { // Implement the sorting logic using JPQL or Criteria API // Return the sorted list // ... }
-	 * 
-	 * @Override
-	 * 
-	 * @Transactional public List<ProductStockPrice> filterProductsByPriceRange(double minPrice, double maxPrice) { //
-	 * Implement the filtering logic using JPQL or Criteria API // Return the filtered list // ... }
-	 */
-
+	//check the pincode availability for the region specified
 	@Override
 	@Transactional
 	public boolean isPincodeValid(int pincode) {
@@ -132,12 +129,14 @@ public class ProductDAOImp implements ProductDAO {
 		return count > 0;
 	}
 
+	//show products based on the price range selected
 	@Override
 	public List<ProductStockPrice> filterProductsByPriceRange(double minPrice, double maxPrice) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	//method to sort the products on the filter applied 
 	@Override
 	public List<ProductStockPrice> sortProductsByPrice(List<ProductStockPrice> productList, String sortOrder) {
 		// TODO Auto-generated method stub
