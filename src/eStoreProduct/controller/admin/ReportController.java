@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import eStoreProduct.DAO.admin.CategoryReportDAO;
-import eStoreProduct.DAO.admin.OrderRepDAO;
+import eStoreProduct.DAO.admin.OrderReportDAO;
 import eStoreProduct.model.admin.output.*;
 import eStoreProduct.model.admin.entities.*;
 
@@ -19,21 +19,24 @@ import eStoreProduct.model.admin.entities.*;
 public class ReportController {
     
  
-    private OrderRepDAO odao;
+    private OrderReportDAO odao;
     private CategoryReportDAO crd;
     
     @Autowired
-	public ReportController( OrderRepDAO odao,CategoryReportDAO crd) {
+	public ReportController( OrderReportDAO odao,CategoryReportDAO crd) {
 	this.odao = odao;
 	this.crd=crd;
 	}
-    
+        //method to generate the gst
 	@GetMapping("/generateGSTReport")
 	public String generateGSTReport(Model model) {
+		//get all the ordered products
 	    List<SlamOrderModel> om=odao.getAllOrders();
 	    model.addAttribute("orderReport", om);
+		//call view
 	    return "Reports";
 	}
+	//method to generate the report based on categories
 	@GetMapping("/categoryReport")
 	public String categoryReport(Model model) {
 	    //List<orderModel> om=odao.getAllOrders();
@@ -41,10 +44,5 @@ public class ReportController {
 	    model.addAttribute("categoryReport", cl);
 	    return "catReports";
 	}
-	/*
-	 * @GetMapping("/categoryReportSort") public String categoryReportSort(Model
-	 * model) { //List<orderModel> om=odao.getAllOrders();
-	 * List<CategoryReportViewModel> cl= model.addAttribute("categoryReport", cl);
-	 * return "catReports"; }
-	 */
+	
 }
