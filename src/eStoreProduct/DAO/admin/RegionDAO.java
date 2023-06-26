@@ -12,5 +12,5 @@ public interface RegionDAO {
 	
 	boolean addRegion(Regions reg);
 
-	void removeRegion(int id);
+	boolean removeRegion(int id);
 }
