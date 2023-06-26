@@ -22,12 +22,14 @@ public class OrderDAOImp implements OrderDAO {
 	@PersistenceContext
 	private EntityManager entityManager;
 
+	//method to insert into database when order is placed
 	@Override
 	@Transactional
 	public void insertOrder(orderModel order) {
 		entityManager.persist(order);
 	}
 
+	//method to get all the placed orders
 	@Override
 	@Transactional
 	public List<orderModel> getAllOrders() {
@@ -41,6 +43,7 @@ public class OrderDAOImp implements OrderDAO {
 		return query.getResultList();
 	}
 
+	//method to update the order pocessed by whom to keep track
 	@Override
 	@Transactional
 	public void updateOrderProcessedBy(Long orderId, Integer processedBy) {
@@ -56,6 +59,7 @@ public class OrderDAOImp implements OrderDAO {
 			entityManager.merge(order);
 		}
 	}
+	//method to get orders placed on certain dates selected
 
 	@Override
 	@Transactional
@@ -72,6 +76,7 @@ public class OrderDAOImp implements OrderDAO {
 		return query.getResultList();
 	}
 
+	//methods to update the status of the order placed
 	@Override
 	@Transactional
 	public void updateOrderShipmentStatus(int orderId, String status) {
