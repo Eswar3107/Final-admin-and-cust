@@ -42,7 +42,7 @@ public class CartController {
 		this.sdao = sdao;
 		BLL = b;
 	}
-//method to add the product to cart
+//method to add the product to cart and send response back
 	@GetMapping("/addToCart")
 	@ResponseBody
 	public String addToCart(@RequestParam(value = "productId", required = true) int productId, Model model,
@@ -119,7 +119,7 @@ public class CartController {
 
 		return "home";
 	}
-//remove product from cart
+//remove product from cart and send response back to jsp
 	@GetMapping("/removeFromCart")
 	@ResponseBody
 	public String removeFromCart(@RequestParam(value = "productId", required = true) int productId, Model model,
@@ -141,7 +141,7 @@ public class CartController {
 		}
 
 	}
-//update the quantity of product in cart 
+//update the quantity of product in cart  and return updated cost back via ajax
 	@PostMapping("/updateQuantity")
 	@ResponseBody
 	public String updateQuantity(@RequestParam(value = "productId", required = true) int productId,
@@ -167,7 +167,7 @@ public class CartController {
 			return String.valueOf(cartcost);
 		}
 	}
-//update the cost of cart products
+//update the cost of cart products 
 	@PostMapping("/updateCostOnLoad")
 	@ResponseBody
 	public String updateCostOnLoad(Model model, HttpSession session) throws NumberFormatException, SQLException {
