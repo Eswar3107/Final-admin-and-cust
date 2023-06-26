@@ -48,7 +48,7 @@ public class adminViewPaymentsController {
         Timestamp start = convertToTimestampWithoutTime(startDate);
         Timestamp end = convertToTimestampWithoutTime(endDate);
 	    //getting payments between dates selected
-        List<AdminViewPayments> payments = adminPayment.getDatePayments(start, end);
+        List<AdminViewPayments> payments = adminPayment.getPaymentsBetweenDates(start, end);
         model.addAttribute("payments", payments);
 	    //call view
         return "viewPayments";
@@ -78,12 +78,12 @@ public class adminViewPaymentsController {
 			maxPrice = 30000;
 		} else {
 			minPrice=30000;
-			payments=adminPayment.getMaxPrice(minPrice);
+			payments=adminPayment.getMaxPricePayment(minPrice);
 			model.addAttribute("payments", payments);
 			return "viewPayments";
 		}
 		// Call the filterProductsByPriceRange() method from the DAO
-		payments=adminPayment.getFilterPayments(minPrice,maxPrice);
+		payments=adminPayment.getPaymentsInThePriceRange(minPrice,maxPrice);
 		model.addAttribute("payments", payments);
         //call view
         return "viewPayments";
