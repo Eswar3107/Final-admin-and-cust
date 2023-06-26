@@ -26,11 +26,12 @@ public class RegionDAOImpl implements RegionDAO {
 	@Override
 	@Transactional
 	public List<RegionsOutput> getRegions() {
+	 List<RegionsOutput> regions=null;
 		try {
             TypedQuery<RegionsOutput> query = entityManager.createQuery("SELECT NEW eStoreProduct.model.admin.output.RegionsOutput("
             		+ "r.regionId, r.regionName,r.regionPinFrom,r.regionPinTo,r.regionSurcharge,r.regionPriceWaiver)"
             		+ " FROM RegionModel r", RegionsOutput.class);
-            List<RegionsOutput> regions = query.getResultList();
+            regions = query.getResultList();
             System.out.print("in getting all regions\n");
             //System.out.print(regions);
             return regions;
