@@ -21,9 +21,7 @@ public class adminShipmentsController {
 
 	private OrderDAO od;
 	private orderModel om;
-	// private orderProductsModel opm;
 	private orderProductDAO opd;
-	// orderProductsModel opmd = opm;
 
 	@Autowired
 	adminShipmentsController(OrderDAO ord, orderModel omd, orderProductDAO orderproductdao) {
@@ -32,6 +30,7 @@ public class adminShipmentsController {
 		opd = orderproductdao;
 	}
 
+	//Display the Orders 
 	@GetMapping("/displayProcessedOrdersInShipments")
 	public String showProcessedOrders(Model model) {
 		List<orderModel> orders = od.getAllOrders();
@@ -39,14 +38,17 @@ public class adminShipmentsController {
 		return "shipmentProgressPage";
 	}
 
+	//Display the orders and order wise products to process the shipment status of each product
 	@GetMapping("/displayProcessedOrderProductsToUpdateStatus")
 	public String showProcessedOrderProducts(@RequestParam(value = "orderId") int o_id, Model model) {
 		System.out.println("show OrderProducts");
 		List<orderProductsModel> orderproducts = opd.getOrderWiseOrderProducts(o_id);
 		model.addAttribute("orderproducts", orderproducts);
+		//call the view
 		return "orderProductsListPage";
 	}
 
+	//Update the Order Product Shipment status 
 	@PostMapping("/updateOrderProductStatus")
 	public String updateStatusOrderProducts(@Validated orderProductInput opm1, Model model) {
 		System.out.println(
@@ -56,13 +58,17 @@ public class adminShipmentsController {
 		System.out.print("updated Op Status");
 		List<orderProductsModel> orderproducts = opd.getOrderWiseOrderProducts(opm1.getOrdr_id());
 		model.addAttribute("orderproducts", orderproducts);
+		//call the view
 		return "orderProductsListPage";
 	}
 
+	//Display the shipped orders
 	@GetMapping("/displayShippedOrders")
 	public String showShippedOrders(Model model) {
+		//get the orders and send it to the view to apply the logic to get the shipped orders
 		List<orderModel> orders = od.getAllOrders();
 		model.addAttribute("orders", orders);
+		//call the view
 		return "shipmentShippedPage";
 	}
 }
