@@ -30,7 +30,7 @@ public class adminShipmentsController {
 		opd = orderproductdao;
 	}
 
-	//Display the Orders 
+	//Display the Proccessed Orders to process the shipment status 
 	@GetMapping("/displayProcessedOrdersInShipments")
 	public String showProcessedOrders(Model model) {
 		List<orderModel> orders = od.getAllOrders();
@@ -40,7 +40,7 @@ public class adminShipmentsController {
 
 	//Display the orders and order wise products to process the shipment status of each product
 	@GetMapping("/displayProcessedOrderProductsToUpdateStatus")
-	public String showProcessedOrderProducts(@RequestParam(value = "orderId") int o_id, Model model) {
+	public String showProcessedOrderProductsToUpdateStatus(@RequestParam(value = "orderId") int o_id, Model model) {
 		System.out.println("show OrderProducts");
 		List<orderProductsModel> orderproducts = opd.getOrderWiseOrderProducts(o_id);
 		model.addAttribute("orderproducts", orderproducts);
@@ -50,7 +50,7 @@ public class adminShipmentsController {
 
 	//Update the Order Product Shipment status 
 	@PostMapping("/updateOrderProductStatus")
-	public String updateStatusOrderProducts(@Validated orderProductInput opm1, Model model) {
+	public String updateOrderProductStatus(@Validated orderProductInput opm1, Model model) {
 		System.out.println(
 				"show update OrderProducts orderId" + opm1.getOrdr_id() + " product id:" + opm1.getProd_id() + "\n");
 		
