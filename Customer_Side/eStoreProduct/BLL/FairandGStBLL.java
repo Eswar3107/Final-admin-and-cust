@@ -162,7 +162,7 @@ public class FairandGStBLL {
 		ProductStockPrice.setTotal(wholeshipmentprice + totalprice + shipgst);
 
 	}
-
+//method to return the products list that list contains the total gsts & surcharge calculation 
 	public List<ProductStockPrice> GetQtyItems2() {
 		return product2;
 	}
