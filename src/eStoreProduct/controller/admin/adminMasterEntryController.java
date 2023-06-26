@@ -33,16 +33,18 @@ public class adminMasterEntryController {
 		cdaoimp = categorydao;
 	}
 
-	@RequestMapping(value = "/showEditableStocks", method = RequestMethod.GET)
-	public String showEditableStocks(Model model) {
+	// Display the Product Stocks to the Admin. So the admin can view and edit the stock of the products.
+	@RequestMapping(value = "/showProductStocks", method = RequestMethod.GET)
+	public String showProductStocks(Model model) {
 		System.out.println("enter masterEntry controller");
 		List<stockSummaryModel> stocks1 = (List<stockSummaryModel>) ssd.getStocks();
 		model.addAttribute("stocks1", stocks1);
 		return "editableStocks";
 	}
 
-	@GetMapping("/updateMasterEntryTables")
-	public String showUpdatedEditableStocks(@Validated stockSummaryModel ssm, Model model) {
+	//Update the Stock of the Products 
+	@GetMapping("/updateStocks")
+	public String UpdateStocks(@Validated stockSummaryModel ssm, Model model) {
 		System.out.println("enter updated masterEntry controller");
 		ssd.updateStocks(ssm.getId(), ssm.getImageUrl(), ssm.getHsnCode(), ssm.getReorderLevel(), ssm.getStock(),
 				ssm.getMrp());
@@ -52,15 +54,17 @@ public class adminMasterEntryController {
 		return "editableStocks";
 	}
 
+	//Redirect to the Add new Product page
 	@GetMapping("/addNewProductInTheMasterEntry")
-	public String addNewProductInMasterEntry(Model model) {
+	public String addNewProductInMasterEntryPage(Model model) {
 		System.out.println("enter addNewProductController ");
 
 		return "addNewProduct";
 	}
 
+	//Add new Product in the Store 
 	@RequestMapping(value = "/createNewProduct", method = RequestMethod.POST)
-	public String createProductNew(@Validated Product prod, Model model) {
+	public String createNewProduct(@Validated Product prod, Model model) {
 		System.out.print("craeting newww product\n");
 		pdaoimp.createProduct(prod);
 		System.out.print("created\n");
@@ -68,15 +72,16 @@ public class adminMasterEntryController {
 
 	}
 
+	//Redirect to Add new Category page
 	@GetMapping("/addNewCategorytInTheMasterEntry")
-	public String addNewCategorytInMasterEntry(Model model) {
+	public String addNewCategorytInMasterEntryPage(Model model) {
 		System.out.println("enter addNewCategoryController controller");
-
 		return "addNewCategoryForm";
 	}
 
+	//Add new Product Category 
 	@RequestMapping(value = "/createNewCategory", method = RequestMethod.POST)
-	public String createProductNew(@Validated Category catg, Model model) {
+	public String createNewCategory(@Validated Category catg, Model model) {
 		cdaoimp.addNewCategory(catg);
 		return "AddedCategory";
 
