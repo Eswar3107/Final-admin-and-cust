@@ -43,26 +43,30 @@ public class adminSettingsController {
 	@ResponseBody
 	public String addRegion(@Validated Regions reg, Model model) {
 		System.out.println("Admin Page");
-		redao.addRegion(reg);
-		// call the view
-		return "DONE";
+		//add region
+		if(redao.addRegion(reg))
+			return "error occured.try again";
+		else
+			return "DONE";
+		
 	}
 
 	@RequestMapping(value = "/remRegion", method = RequestMethod.POST)
 	@ResponseBody
-	public String addRegion(@RequestParam("regionId") String id, Model model) {
-		System.out.println("Admin Page");
+	public String removeRegion(@RequestParam("regionId") String id, Model model) {
+		//parse regionId in String format to Integer
 		int Id = Integer.parseInt(id);
-		redao.removeRegion(Id);
-		// call the view
-		return "DONE";
+		if(redao.removeRegion(Id))
+			return "error occured.try again";
+		else
+			return "DONE";
+		
 	}
 
 	@RequestMapping(value = "/ShippingRedirect", method = RequestMethod.GET)
 	public String shippingRedirect(Model model) {
-		System.out.println("shippingRedirect");
+		//get list of all regions 
 		List<RegionsOutput> regionList = redao.getRegions();
-		System.out.println("shippingRedirect1");
 		model.addAttribute("regionList", regionList);
 		System.out.println("shippingRedirect2");
 
