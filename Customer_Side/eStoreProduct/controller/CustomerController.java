@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import eStoreProduct.BLL.BLL;
+import eStoreProduct.BLL.FairandGStBLL;
 import eStoreProduct.BLL.BLLClass2;
 import eStoreProduct.DAO.OrderDAO;
 import eStoreProduct.DAO.ProductDAO;
@@ -37,7 +37,7 @@ public class CustomerController {
 	// BLLClass obj;
 	cartDAO cartimp;
 
-	BLL BLL;
+	FairandGStBLL BLL;
 	BLLClass2 bl2;
 	String buytype = null;
 	ProductDAO pdaoimp;
@@ -50,7 +50,7 @@ public class CustomerController {
 
 	@Autowired
 	public CustomerController(cartDAO cartdao, customerDAO customerdao, StockUpdaterDAO stckdao, orderModel om,
-			BLLClass2 bl2, BLL bl1, ProductDAO productdao, OrderDAO odao, walletDAO w) {
+			BLLClass2 bl2, FairandGStBLL bl1, ProductDAO productdao, OrderDAO odao, walletDAO w) {
 		cdao = customerdao;
 		cartimp = cartdao;
 		this.bl2 = bl2;
@@ -81,27 +81,7 @@ public class CustomerController {
 		return "profile";
 	}
 
-	/*
-	 * @RequestMapping(value = "/payment", method = RequestMethod.POST) public String showPaymentOptions(Model model,
-	 * HttpSession session) { return "payment"; }
-	 */
-
-	// @GetMapping("/buycartitems")
-	// public String confirmbuycart(Model model, HttpSession session) {
-	// custCredModel cust = (custCredModel) session.getAttribute("customer");
-	// System.out.println("buycartitems");
-	// if (cust == null) {
-	// return "signIn";
-	// }
-	// // model.addAttribute("cust", cust);
-	// List<ProductStockPrice> products = cartimp.getCartProds(cust.getCustId());
-	// model.addAttribute("products", products);
-	// System.out.println("in buycartitems");
-	// double cartcost = BLL.getCartCost(cust.getCustId());
-	// model.addAttribute("cartcost", cartcost);
-	// return "paymentcart";
-	//
-	// }
+	
 
 	@GetMapping("/buycartitems")
 	public String confirmbuycart(Model model, HttpSession session) {
