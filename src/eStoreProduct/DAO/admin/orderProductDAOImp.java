@@ -32,6 +32,7 @@ public class orderProductDAOImp implements orderProductDAO {
 				+ "op.orderId=:orderid";
 		List<orderProductsModel> l=null;
 		try {
+			//crate JPA query and execute
 		l = entityManager.createQuery(
 				query,
 				orderProductsModel.class).setParameter("orderid", orderid).getResultList();
@@ -56,7 +57,7 @@ public class orderProductDAOImp implements orderProductDAO {
                 .setParameter("oid", oid)
                 .setParameter("pid", pid)
                 .executeUpdate();
-        System.out.print("\nrows affected: " + x);
+       
         return x;
 	}
 
