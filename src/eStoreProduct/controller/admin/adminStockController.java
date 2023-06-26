@@ -13,21 +13,14 @@ import eStoreProduct.model.admin.output.stockSummaryModel;
 @Controller
 public class adminStockController {
 	private stockSummaryDAO ssd;
-	/*
-	 * private HSNCodeModel a; private productCategoryModel b; private productsModel c; private productStockModel d;
-	 */
-
 	@Autowired
 	adminStockController(stockSummaryDAO stockdao) {
 		ssd = stockdao;
-		/*
-		 * a = hsnm; b = pcm; c = pm; d = psm;
-		 */
-	}
+		}
 
+	//method to get all the stock available
 	@GetMapping("/listStock")
 	public String showStocks(Model model) {
-		System.out.println("enter stock controller");
 		List<stockSummaryModel> stocks = ssd.getStocks();
 		model.addAttribute("stocks", stocks);
 		return "stockSummary";
