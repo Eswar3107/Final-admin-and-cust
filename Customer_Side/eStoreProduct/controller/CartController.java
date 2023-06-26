@@ -34,12 +34,10 @@ public class CartController {
 	private final ProductDAO pdaoimp;
 	List<ProductStockPrice> alist = new ArrayList<>();
 	customerDAO cdao;
-	// ______________
+	
 	FairandGStBLL  BLL;
-
-	// BLLClass obj = new BLLClass();
 	@Autowired
-	public CartController(cartDAO cartdao, ProductDAO productdao, customerDAO cdao, BLL b, ServicableRegionDAO sdao) {
+	public CartController(cartDAO cartdao, ProductDAO productdao, customerDAO cdao, FairandGStBLL b, ServicableRegionDAO sdao) {
 		cartimp = cartdao;
 		pdaoimp = productdao;
 		this.cdao = cdao;
