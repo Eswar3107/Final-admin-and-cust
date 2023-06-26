@@ -24,31 +24,39 @@ public class CategoryDAOImp implements CategoryDAO {
 	@PersistenceUnit
 	private EntityManagerFactory entityManagerFactory;
 
+	//method to get the last category id
 	@Transactional
 	public Integer getMaxCategoryId() {
+		//query to get max category id
 		String query = "SELECT MAX(c.id) FROM productCategoryModel c";
+		//create a JPA query
 		TypedQuery<Integer> maxIdQuery = entityManager.createQuery(query, Integer.class);
+		//execute query
 		Integer maxId = maxIdQuery.getSingleResult();
 		return maxId != null ? maxId : 0;
 	}
 
+	//method to add a new category to the existing stock
 	@Override
 	@Transactional
 	public boolean addNewCategory(Category catg) {
+		//get the last category id
 		int c_id = getMaxCategoryId();
+		//add new category id by incrementing
 		c_id = c_id + 1;
-		System.out.println(c_id + "Category_id\n");
-
 		productCategoryModel categoryEntity = new productCategoryModel();
+		//set the parameters of the class
 		categoryEntity.setId(c_id);
 		categoryEntity.setPrct_title(catg.getPrct_title());
 		categoryEntity.setDescription(catg.getPrct_desc());
+		//execute the query to update
 		entityManager.merge(categoryEntity);
 
 		return categoryEntity.getId() != null;
 
 	}
 
+	//method to load all the categories 
 	public List<String> getAllCategories() {
 		List<String> categories = new ArrayList<>();
 
