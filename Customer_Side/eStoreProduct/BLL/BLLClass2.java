@@ -7,7 +7,7 @@ import com.razorpay.Order;
 import com.razorpay.RazorpayClient;
 
 @Component
-public class BLLClass2 {
+public class OrderIdCreationBLL {
 
 	public String createRazorpayOrder(double amt) {
 		System.out.println("amount in razorpay  " + amt);
