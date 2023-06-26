@@ -23,7 +23,7 @@ import eStoreProduct.model.admin.output.AdminViewPayments;
 @Controller
 public class adminViewPaymentsController {
     private final AdminViewPaymentDAO adminPayment;
-
+     //dependency injection
     @Autowired
     public adminViewPaymentsController(AdminViewPaymentDAO adminPayment) {
         this.adminPayment = adminPayment;
@@ -32,9 +32,10 @@ public class adminViewPaymentsController {
     // Getting all payments done
     @GetMapping("/viewPayments")
     public String showPayments(Model model) {
-        System.out.println("Enter payment controller");
+        //getting all payments from database
         List<AdminViewPayments> payments = adminPayment.getPayments();
         model.addAttribute("payments", payments);
+	    //call view
         return "viewPayments";
     }
 
@@ -43,25 +44,24 @@ public class adminViewPaymentsController {
     public String showBetweenPayments(@RequestParam("startDate") Date startDate,
                                       @RequestParam("endDate") Date endDate,
                                       Model model) {
-        System.out.println("Enter payment controller for between dates");
-        System.out.println("date1       "+startDate+"   end   "+endDate);
+	    //time conversions to match database types
         Timestamp start = convertToTimestampWithoutTime(startDate);
         Timestamp end = convertToTimestampWithoutTime(endDate);
-        System.out.println("date1       "+start+"   end   "+end);
-        
+	    //getting payments between dates selected
         List<AdminViewPayments> payments = adminPayment.getDatePayments(start, end);
-        for(AdminViewPayments a:payments)
-        	System.out.println("payments    "+a);
         model.addAttribute("payments", payments);
+	    //call view
         return "viewPayments";
     }
+	//method that converts the Date type to Timestamp 
     private Timestamp convertToTimestampWithoutTime(Date date) {
         LocalDate localDate = date.toLocalDate();
         LocalDateTime localDateTime = LocalDateTime.of(localDate, LocalTime.MIN);
         return Timestamp.valueOf(localDateTime);
     }
+	//getting the payments between price ranges
     @PostMapping("/filterPayments")
-    public String showFilterPayments(@RequestParam("priceRange") String priceRange,Model model) {
+    public String showPriceRangePayments(@RequestParam("priceRange") String priceRange,Model model) {
         System.out.println("Enter payment controller");
         List<AdminViewPayments> payments = adminPayment.getPayments();    
         double minPrice;
@@ -82,12 +82,10 @@ public class adminViewPaymentsController {
 			model.addAttribute("payments", payments);
 			return "viewPayments";
 		}
-		System.out.println("min price  " + minPrice + "    maxprice  " + maxPrice);
 		// Call the filterProductsByPriceRange() method from the DAO
 		payments=adminPayment.getFilterPayments(minPrice,maxPrice);
-		//List<ProductStockPrice> products = pdaoimp.filterProductsByPriceRange(minPrice, maxPrice);
 		model.addAttribute("payments", payments);
-        
+        //call view
         return "viewPayments";
     }
 }
