@@ -25,8 +25,6 @@ public class emailSend {
 	}
 
 	public String sendEmail(String email1) {
-		// TODO Auto-generated method stub
-
 		final String user = "akshayaakula047@gmail.com";
 		final String password = "drrtoqiwlqgkwrum";
 
