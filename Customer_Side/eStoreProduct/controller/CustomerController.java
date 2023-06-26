@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import eStoreProduct.BLL.FairandGStBLL;
-import eStoreProduct.BLL.BLLClass2;
+import eStoreProduct.BLL.OrderIdCreationBLL;
 import eStoreProduct.DAO.OrderDAO;
 import eStoreProduct.DAO.ProductDAO;
 import eStoreProduct.DAO.StockUpdaterDAO;
@@ -34,11 +34,10 @@ import eStoreProduct.utility.ProductStockPrice;
 @Controller
 public class CustomerController {
 	customerDAO cdao;
-	// BLLClass obj;
 	cartDAO cartimp;
 
-	FairandGStBLL BLL;
-	BLLClass2 bl2;
+	FairandGStBLL objbl1;
+	OrderIdCreationBLL bl2;
 	String buytype = null;
 	ProductDAO pdaoimp;
 	OrderDAO odao;
@@ -50,11 +49,11 @@ public class CustomerController {
 
 	@Autowired
 	public CustomerController(cartDAO cartdao, customerDAO customerdao, StockUpdaterDAO stckdao, orderModel om,
-			BLLClass2 bl2, FairandGStBLL bl1, ProductDAO productdao, OrderDAO odao, walletDAO w) {
+			OrderIdCreationBLL bl2, FairandGStBLL bl1, ProductDAO productdao, OrderDAO odao, walletDAO w) {
 		cdao = customerdao;
 		cartimp = cartdao;
 		this.bl2 = bl2;
-		this.BLL = bl1;
+		this.objbl1 = bl1;
 		pdaoimp = productdao;
 		this.odao = odao;
 		wdao = w;
@@ -92,7 +91,7 @@ public class CustomerController {
 			BLL.calculateTotalfair(cust1);
 			System.out.println("Entered into buycartitems1");
 
-			products = BLL.GetQtyItems2();
+			products = objbl1.GetQtyItems2();
 			System.out.println("Entered into buycartitems2          " + ProductStockPrice.getTotal());
 			model.addAttribute("products", products);
 			buytype = "cartproducts";
@@ -115,11 +114,6 @@ public class CustomerController {
 		return orderId;
 	}
 
-	@GetMapping("/done")
-	public String orderCreation(Model model) {
-		return "redirect:/OrderCreation";
-	}
-
 	@PostMapping("/confirmShipmentAddress")
 	@ResponseBody
 	public String confirm(@RequestParam(value = "mobile") String mobile,
@@ -137,19 +131,7 @@ public class CustomerController {
 
 	}
 
-	// @GetMapping("/paymentoptions")
-	// public String orderCreate(Model model, HttpSession session) {
-	// // String orderId = bl2.createRazorpayOrder(Double.parseDouble((String) session.getAttribute("qtycost")));
-	// custCredModel cust = (custCredModel) session.getAttribute("customer");
-	// double cartcost = BLL.getCartCost(cust.getCustId());
-	// // model.addAttribute("cartcost", cartcost);
-	// System.out.println(cartcost + ":tcost");
-	// System.out.println("amount in controller before razor pay " + cartcost);
-	// String orderId = bl2.createRazorpayOrder(cartcost);
-	// model.addAttribute("orderId", orderId);
-	// model.addAttribute("amt", (int) cartcost * 100);
-	// return "payment-options";
-	// }
+	
 
 	@PostMapping("/updateshipment")
 	@ResponseBody
@@ -172,17 +154,6 @@ public class CustomerController {
 		return "Not Valid";
 	}
 
-	// @GetMapping("/paymentoptions")
-	// public String orderCreation(Model model, HttpSession session, @RequestParam("total") double totalAmount) {
-	// custCredModel cust1 = (custCredModel) session.getAttribute("customer");
-	// String orderId = bl2.createRazorpayOrder(Integer.parseInt(String.valueOf(totalAmount)));
-	// long amountInPaisa = (long) (totalAmount * 100); // Convert amount to paisa
-	//
-	// model.addAttribute("orderId", orderId); // Pass the orderId to the view
-	// model.addAttribute("amt", amountInPaisa); // Pass the amount in paisa to the view
-	// return "payment-options";
-	// }
-
 	@PostMapping(value = "/invoice")
 	public String invoice(@RequestParam("paymentReference") String id, @RequestParam("total") String total, Model model,
 			HttpSession session, @Validated orderModel om) {
@@ -197,7 +168,7 @@ public class CustomerController {
 		}
 
 		if (buytype.equals("cartproducts")) {
-			products = BLL.GetQtyItems2();
+			products = objbl1.GetQtyItems2();
 		} else {
 			products = product2;
 		}
@@ -222,7 +193,7 @@ public class CustomerController {
 			throws NumberFormatException, SQLException {
 		product2.clear();
 		custCredModel cust1 = (custCredModel) session.getAttribute("customer");
-		ProductStockPrice product = BLL.individualTotalfair(cust1, productId, qty);
+		ProductStockPrice product = objbl1.individualTotalfair(cust1, productId, qty);
 		product2.add(product);
 
 		buytype = "individual";
