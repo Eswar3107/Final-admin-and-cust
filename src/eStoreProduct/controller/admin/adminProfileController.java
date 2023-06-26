@@ -23,6 +23,7 @@ public class adminProfileController {
 
 	}
 
+	//Display Admin Profile
 	@RequestMapping(value = "/displayAdminProfile", method = RequestMethod.GET)
 	public String getAdminLogin(Model model, HttpSession session) {
 		System.out.println("Admin Profile Page");
@@ -32,6 +33,7 @@ public class adminProfileController {
 		return "adminProfile";
 	}
 
+	//Call the Edit Profile Page
 	@RequestMapping(value = "/editAdminProfile", method = RequestMethod.GET)
 	public String editAdminDetails(Model model) {
 		System.out.println("editable Admin Profile Page");
@@ -40,6 +42,7 @@ public class adminProfileController {
 		return "editableAdminProfile";
 	}
 
+	//Edit and Update the changes of the Admin Profile 
 	@RequestMapping(value = "/updateAdminDetails", method = RequestMethod.GET)
 	public String updateAdminDetails(@Validated adminLogin al, Model model) {
 		System.out.println("updating Admin Profile Page");
