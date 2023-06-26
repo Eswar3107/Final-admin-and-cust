@@ -32,7 +32,7 @@ public class WishlistDAOImp implements WishlistDAO {
 	private String insert_slam_wishlist = "INSERT INTO slam_wishlist (cust_id,prod_id) VALUES (?, ?)";
 	private String delete_slam_wishlist = "DELETE FROM slam_wishlist WHERE cust_id=? AND prod_id=?";
 	private String select_slam_wishlist = "SELECT pd.* FROM slam_Products pd, slam_wishlist sc WHERE sc.cust_id = ? AND sc.prod_id = pd.prod_id";
-
+//add product to wishlist
 	public int addToWishlist(int productId, int customerId) {
 		int r = jdbcTemplate.update(insert_slam_wishlist, customerId, productId);
 		if (r > 0) {
@@ -42,7 +42,7 @@ public class WishlistDAOImp implements WishlistDAO {
 			return -1;
 		}
 	}
-
+//remove product to wishlist
 	public int removeFromWishlist(int productId, int customerId) {
 		int r = jdbcTemplate.update(delete_slam_wishlist, customerId, productId);
 		if (r > 0) {
@@ -52,10 +52,11 @@ public class WishlistDAOImp implements WishlistDAO {
 			return -1;
 		}
 	}
-
+//get all wishlist products
 	public List<ProductStockPrice> getWishlistProds(int cust_id) {
+		List<ProductStockPrice> cproducts=null;
 		try {
-			List<ProductStockPrice> cproducts = jdbcTemplate.query(select_slam_wishlist,
+			 cproducts = jdbcTemplate.query(select_slam_wishlist,
 					new WishlistRowMapper(prodStockDAO), cust_id);
 			System.out.println(cproducts.toString());
 			return cproducts;
