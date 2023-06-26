@@ -9,9 +9,9 @@ public interface AdminViewPaymentDAO {
 
 	public List<AdminViewPayments> getPayments();
 
-	public List<AdminViewPayments> getDatePayments(Timestamp date1, Timestamp date2);
+	public List<AdminViewPayments> getPaymentsBetweenDates(Timestamp date1, Timestamp date2);
 	
-	public List<AdminViewPayments> getFilterPayments(double p1,double p2);
+	public List<AdminViewPayments> getPaymentsInThePriceRange(double p1,double p2);
 	
-	public List<AdminViewPayments> getMaxPrice(double p1);
+	public List<AdminViewPayments> getMaxPricePayment(double p1);
 }
