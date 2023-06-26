@@ -39,6 +39,7 @@ public class adminMasterEntryController {
 		System.out.println("enter masterEntry controller");
 		List<stockSummaryModel> stocks1 = (List<stockSummaryModel>) ssd.getStocks();
 		model.addAttribute("stocks1", stocks1);
+		// call the view
 		return "editableStocks";
 	}
 
@@ -51,6 +52,7 @@ public class adminMasterEntryController {
 		List<stockSummaryModel> stocks1 = (List<stockSummaryModel>) ssd.getStocks();
 		System.out.println("enter updated masterEntry controller23");
 		model.addAttribute("stocks1", stocks1);
+		// call the view
 		return "editableStocks";
 	}
 
@@ -58,7 +60,7 @@ public class adminMasterEntryController {
 	@GetMapping("/addNewProductInTheMasterEntry")
 	public String addNewProductInMasterEntryPage(Model model) {
 		System.out.println("enter addNewProductController ");
-
+		// call the view
 		return "addNewProduct";
 	}
 
@@ -68,6 +70,7 @@ public class adminMasterEntryController {
 		System.out.print("craeting newww product\n");
 		pdaoimp.createProduct(prod);
 		System.out.print("created\n");
+		// call the AddedProduct view to display the notification of product Added
 		return "AddedProduct";
 
 	}
@@ -76,6 +79,7 @@ public class adminMasterEntryController {
 	@GetMapping("/addNewCategorytInTheMasterEntry")
 	public String addNewCategorytInMasterEntryPage(Model model) {
 		System.out.println("enter addNewCategoryController controller");
+		// call the view
 		return "addNewCategoryForm";
 	}
 
@@ -83,6 +87,7 @@ public class adminMasterEntryController {
 	@RequestMapping(value = "/createNewCategory", method = RequestMethod.POST)
 	public String createNewCategory(@Validated Category catg, Model model) {
 		cdaoimp.addNewCategory(catg);
+		// call the AddedCategory view to display the notification of Category Added
 		return "AddedCategory";
 
 	}
