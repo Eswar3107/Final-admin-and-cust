@@ -24,7 +24,7 @@ public class AdminViewPaymentDAOImp implements AdminViewPaymentDAO{
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	
+	//method to get all the payments
 	@Override
 	@Transactional
 	public List<AdminViewPayments> getPayments() {
@@ -33,29 +33,29 @@ public class AdminViewPaymentDAOImp implements AdminViewPaymentDAO{
 	        		+" FROM orderModel om", AdminViewPayments.class);
 	        return query.getResultList();
 	    }
-		
+	//method to get payments between dates selected	
 	@Override
 	@Transactional	
-	public List<AdminViewPayments> getDatePayments(Timestamp date1, Timestamp date2) {
+	public List<AdminViewPayments> getPaymentsBetweenDates(Timestamp date1, Timestamp date2) {
     TypedQuery<AdminViewPayments> query = entityManager.createQuery("SELECT avp FROM AdminViewPayments avp WHERE avp.paydate BETWEEN :date1 AND :date2", AdminViewPayments.class);
     query.setParameter("date1", date1);
     query.setParameter("date2", date2);
     return query.getResultList();
 	}
-	
+	//method to get payments in the price range selected
 	@Override
 	@Transactional
-	public List<AdminViewPayments> getFilterPayments(double p1, double p2) {
+	public List<AdminViewPayments> getPaymentsInThePriceRange(double p1, double p2) {
     TypedQuery<AdminViewPayments> query = entityManager.createQuery("SELECT avp FROM AdminViewPayments avp WHERE avp.ordertotal BETWEEN :p1 AND :p2", AdminViewPayments.class);
     query.setParameter("p1", p1);
     query.setParameter("p2", p2);
     return query.getResultList();
 	}
 
-	
+	//method to get the highest paid payment
 	@Override
 	@Transactional
-	public List<AdminViewPayments> getMaxPrice(double p1) {
+	public List<AdminViewPayments> getMaxPricePayment(double p1) {
 		    TypedQuery<AdminViewPayments> query = entityManager.createQuery("SELECT avp FROM AdminViewPayments avp WHERE avp.ordertotal > :p1", AdminViewPayments.class);
 		    query.setParameter("p1", p1);
 		    return query.getResultList();
