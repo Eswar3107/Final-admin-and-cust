@@ -18,9 +18,12 @@ public class adminDAOImp implements adminDAO {
 	@Transactional
 	public adminModel getAdmin(String email, String password) {
 		try {
+			// Query to retrieve admin based on email and password
 			String query = "SELECT a FROM adminModel a WHERE a.email = :email AND a.password = :password";
-			return entityManager.createQuery(query, adminModel.class).setParameter("email", email)
-					.setParameter("password", password).getSingleResult();
+			return entityManager.createQuery(query, adminModel.class)
+					.setParameter("email", email)
+					.setParameter("password", password)
+					.getSingleResult();
 		} catch (Exception e) {
 			// Handle the exception appropriately (e.g., logging, throwing custom exception, etc.)
 			e.printStackTrace();
@@ -31,6 +34,7 @@ public class adminDAOImp implements adminDAO {
 	@Override
 	@Transactional
 	public void updateAdmin(adminModel admin) {
+		// Update admin information
 		entityManager.merge(admin);
 	}
 }
