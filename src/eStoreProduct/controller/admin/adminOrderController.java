@@ -30,6 +30,7 @@ public class adminOrderController {
 	public String showOrders(Model model) {
 		List<orderModel> orders = od.getAllOrders();
 		model.addAttribute("orders", orders);
+		// call the view
 		return "orderList";
 	}
 
