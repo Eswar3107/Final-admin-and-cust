@@ -15,41 +15,35 @@ import eStoreProduct.model.admin.input.adminLogin;
 
 @Controller
 public class adminController {
-	adminDAO adao;
+  
+  adminDAO adao;
 
-	@Autowired
-	public adminController(adminDAO adminDAO) {
-		adao = adminDAO;
+  @Autowired
+  public adminController(adminDAO adminDAO) {
+    adao = adminDAO;
+  }
 
-	}
+  @RequestMapping(value = "/adminLogin", method = RequestMethod.GET)
+  // Method to show admin sign in
+  public String getAdminLogin(Model model) {
+    // Call the view
+    return "adminSignIn";
+  }
 
-	@RequestMapping(value = "/adminLogin", method = RequestMethod.GET)
-	public String getAdminLogin(Model model) {
-		System.out.println("Admin Page");
+  @RequestMapping(value = "/adminSignOk", method = RequestMethod.POST)
+  // Validating whether the admin is valid or not
+  public String getHomeFinal(@Validated adminLogin al, Model model, HttpSession session) {
+    // Validating the entered details
+    adminModel ad = adao.getAdmin(al.getEmail(), al.getPassword());
 
-		// call the view
-		return "adminSignIn";
-	}
-
-	@RequestMapping(value = "/adminSignOk", method = RequestMethod.POST)
-	public String getHomeFinal(@Validated adminLogin al, Model model, HttpSession session) {
-
-		System.out.println("checking admin sign in");
-
-		adminModel ad = adao.getAdmin(al.getEmail(), al.getPassword());
-
-		System.out.println("checking sign in 1");
-		if (ad != null) {
-			session.setAttribute("admin", ad); // Store admin object
-			System.out.println(ad.getTitle());
-			model.addAttribute("admin", ad);
-			System.out.println(ad.getTitle());
-
-		} else {
-			return "adminSignIn";
-		}
-
-		return "admin";
-	}
-
+    if (ad != null) {
+      session.setAttribute("admin", ad); // Store admin object
+      model.addAttribute("admin", ad);
+    } else {
+     //if not valid admin again go the sign in page
+      return "adminSignIn";
+    }
+    
+    return "admin";
+  }
 }
