@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import eStoreProduct.BLL.BLL;
+import eStoreProduct.BLL.FairandGStBLL;
 import eStoreProduct.DAO.ProductDAO;
 import eStoreProduct.DAO.ServicableRegionDAO;
 import eStoreProduct.DAO.cartDAO;
@@ -35,7 +35,7 @@ public class CartController {
 	List<ProductStockPrice> alist = new ArrayList<>();
 	customerDAO cdao;
 	// ______________
-	BLL BLL;
+	FairandGStBLL  BLL;
 
 	// BLLClass obj = new BLLClass();
 	@Autowired
@@ -46,7 +46,7 @@ public class CartController {
 		this.sdao = sdao;
 		BLL = b;
 	}
-
+//add the product to cart
 	@GetMapping("/addToCart")
 	@ResponseBody
 	public String addToCart(@RequestParam(value = "productId", required = true) int productId, Model model,
@@ -69,7 +69,7 @@ public class CartController {
 		}
 	}
 
-
+//display the cart items
 	@RequestMapping(value = "/cartDisplay", method = RequestMethod.GET)
 	public String getSignUpPage(Model model, HttpSession session) {
 		double cartt = 0;
@@ -93,7 +93,7 @@ public class CartController {
 
 		}
 	}
-
+ //when signok cart items stored into customer cart
 	@RequestMapping(value = "/signOk", method = RequestMethod.GET)
 	public String getHomeFinal(@RequestParam("em") String email, @RequestParam("ps") String psd, Model model,
 			HttpSession session) {
@@ -123,7 +123,7 @@ public class CartController {
 
 		return "home";
 	}
-
+//remove product cart
 	@GetMapping("/removeFromCart")
 	@ResponseBody
 	public String removeFromCart(@RequestParam(value = "productId", required = true) int productId, Model model,
@@ -145,25 +145,7 @@ public class CartController {
 		}
 
 	}
-
-	// @PostMapping("/updateQuantity")
-	// public int updateQuantity(@RequestParam(value = "productId", required = true) int productId,
-	// @RequestParam(value = "quantity", required = true) int quantity, Model model, HttpSession session)
-	// throws NumberFormatException, SQLException {
-	// custCredModel cust1 = (custCredModel) session.getAttribute("customer");
-	// if (cust1 != null) {
-	// cartModel cart = new cartModel(cust1.getCustId(), productId, quantity);
-	// return cartimp.updateQty(cart);
-	// } else {
-	// for (ProductStockPrice product : alist) {
-	// if (product.getProd_id() == productId) {
-	// product.setQuantity(quantity);
-	// }
-	// }
-	// }
-	// return quantity;
-	// }
-
+//update the quantity of product
 	@PostMapping("/updateQuantity")
 	@ResponseBody
 	public String updateQuantity(@RequestParam(value = "productId", required = true) int productId,
@@ -192,7 +174,7 @@ public class CartController {
 			return String.valueOf(cartcost);
 		}
 	}
-
+//update the cost of cart products
 	@PostMapping("/updateCostOnLoad")
 	@ResponseBody
 	public String updateCostOnLoad(Model model, HttpSession session) throws NumberFormatException, SQLException {
@@ -212,7 +194,7 @@ public class CartController {
 			return String.valueOf(cartcost);
 		}
 	}
-
+//check the pincode availability of products
 	@PostMapping("/checkPincodeValidity")
 	@ResponseBody
 	public String checkPincodeValidity(@RequestParam(value = "pincode", required = true) String pincode, Model model,
