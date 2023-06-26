@@ -25,6 +25,7 @@ public class stockSummaryDAOImp implements stockSummaryDAO {
 
 	
 
+	//method to get the stock details
 	@Override
 	@Transactional
 	public List<stockSummaryModel> getStocks() {
@@ -33,11 +34,10 @@ public class stockSummaryDAOImp implements stockSummaryDAO {
 				+ "hsn.sgst, hsn.igst, hsn.cgst, hsn.gst, ps.price, ps.stock, ps.mrp) "
 				+ "FROM eStoreProduct.model.admin.entities.productsModel p, eStoreProduct.model.admin.entities.productCategoryModel pc, eStoreProduct.model.admin.entities.HSNCodeModel hsn, eStoreProduct.model.admin.entities.productStockModel ps "
 				+ "WHERE p.id = ps.product AND p.hsnCode = hsn.hsnCode AND pc.id = p.productCategory";
+		List<stockSummaryModel> l=null;
 
 		try {
-			List<stockSummaryModel> l = entityManager.createQuery(query, stockSummaryModel.class).getResultList();
-			for (stockSummaryModel lis : l)
-				System.out.println("Inside" + lis);
+			l = entityManager.createQuery(query, stockSummaryModel.class).getResultList();
 			return l;
 		} catch (Exception e) {
 			// Handle the exception appropriately (e.g., logging, throwing custom exception, etc.)
@@ -46,11 +46,10 @@ public class stockSummaryDAOImp implements stockSummaryDAO {
 		}
 	}
 
+	//method to update the stocks
 	@Override
 	@Transactional
 	public void updateStocks(int prodid, String imageurl, int gstcid, int reorderlevel, int stock, double mrp) {
-		System.out.println("In the method: " + prodid + "gst" + gstcid);
-
 		try {
 			productsModel product = entityManager.find(productsModel.class, prodid);
 			HSNCodeModel hsn = entityManager.find(HSNCodeModel.class, gstcid);
@@ -66,23 +65,16 @@ public class stockSummaryDAOImp implements stockSummaryDAO {
 				product.setImageUrl(imageurl);
 				product.setHsnCode(gstcid);
 				entityManager.merge(product);
-				System.out.println("Product updated successfully.");
-
-			} else {
-				System.out.println("Product not found.");
-			}
+				
+			} 
 			if (psm != null) {
 				psm.setStock(stock);
 				psm.setMrp(mrp);
 				psm.setPrice(updated_mrp);
 				entityManager.merge(psm);
-				System.out.println("stock updated successfully.");
-
-			} else {
-				System.out.println("Stock not found.");
-			}
+				
+			} 
 		} catch (Exception e) {
-			System.out.println("Error updating the product: " + e.getMessage());
 			e.printStackTrace();
 		}
 
