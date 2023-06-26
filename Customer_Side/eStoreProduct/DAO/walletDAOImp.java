@@ -19,7 +19,7 @@ public class walletDAOImp implements walletDAO {
 	public walletDAOImp(DataSource dataSource) {
 		jdbcTemplate = new JdbcTemplate(dataSource);
 	}
-
+        //Get wallet amount by customer ID
 	@Override
 	public wallet getWalletAmount(int custid) {
 
@@ -31,7 +31,7 @@ public class walletDAOImp implements walletDAO {
 		});
 
 	}
-
+         //update the wallet amount if customer used
 	@Override
 	public void updatewallet(double amt, int custid) {
 
