@@ -44,7 +44,7 @@ public class ProductController {
 
 		return htmlContent.toString();
 	}
-//get categories wise products method
+//get categories wise products method and send via productcatalog jsp
 	@PostMapping("/categoryProducts")
 	public String showCategoryProducts(@RequestParam(value = "category_id", required = false) int categoryId,
 			Model model) {
