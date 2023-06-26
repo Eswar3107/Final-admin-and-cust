@@ -14,6 +14,7 @@ public class adminDAOImp implements adminDAO {
 	@PersistenceContext
 	private EntityManager entityManager;
 
+	//method to verify the admin credentials
 	@Override
 	@Transactional
 	public adminModel getAdmin(String email, String password) {
@@ -25,12 +26,12 @@ public class adminDAOImp implements adminDAO {
 					.setParameter("password", password)
 					.getSingleResult();
 		} catch (Exception e) {
-			// Handle the exception appropriately (e.g., logging, throwing custom exception, etc.)
-			e.printStackTrace();
-			return null; // or throw an exception if required
+                         e.printStackTrace();
+			return null; 
 		}
 	}
 
+	//update the admin details
 	@Override
 	@Transactional
 	public void updateAdmin(adminModel admin) {
