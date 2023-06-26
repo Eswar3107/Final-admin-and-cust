@@ -30,7 +30,7 @@ public class ProductController {
 	public ProductController(ProductDAO productdao) {
 		pdaoimp = productdao;
 	}
-
+//get products categories list
 	@GetMapping("/CategoriesServlet")
 	@ResponseBody
 	public String displayCategories(Model model) {
@@ -44,7 +44,7 @@ public class ProductController {
 
 		return htmlContent.toString();
 	}
-
+//get categories wise products
 	@PostMapping("/categoryProducts")
 	public String showCategoryProducts(@RequestParam(value = "category_id", required = false) int categoryId,
 			Model model) {
@@ -61,30 +61,24 @@ public class ProductController {
 		model.addAttribute("products", products);
 		return "productCatalog";
 	}
-
+//display the all products
 	@GetMapping("/productsDisplay")
 	public String showAllProducts(Model model) {
-		// System.out.println("all prod display method mapping");
 		List<ProductStockPrice> products = pdaoimp.getAllProducts();
-
-		model.addAttribute("products", products);
-
-		return "productCatalog";
+model.addAttribute("products", products);
+return "productCatalog";
 	}
-
+//Individual products description
 	@RequestMapping(value = "/prodDescription", method = RequestMethod.GET)
 	public String getSignUpPage(@RequestParam(value = "productId", required = false) int productId, Model model,
 			HttpSession session) {
-		// System.out.println("product description Page");
 		ProductStockPrice product = pdaoimp.getProductById(productId);
-		// System.out.println("product recieved when image is clicked " + product);
 		model.addAttribute("oneproduct", product);
 		custCredModel cust1 = (custCredModel) session.getAttribute("customer");
 		model.addAttribute("cust", cust1);
-		// call the view
 		return "prodDescription";
 	}
-
+       //Individual products details
 	@GetMapping("/products/{productId}")
 	public String showProductDetails(@PathVariable int productId, Model model) {
 
@@ -92,7 +86,7 @@ public class ProductController {
 		model.addAttribute("product", product);
 		return "productDetails";
 	}
-
+	// Filter the products based on pricc
 	@RequestMapping(value = "/sortProducts", method = RequestMethod.POST)
 	public String sortProducts(@RequestParam("sortOrder") String sortOrder, Model model) {
 		// Sort the products based on the selected sorting option
@@ -105,7 +99,7 @@ public class ProductController {
 		// Return the view
 		return "productCatalog";
 	}
-
+	// Filter the products based on price range
 	@RequestMapping(value = "/filterProducts", method = RequestMethod.POST)
 	public String getFilteredProducts(@RequestParam("priceRange") String priceRange, Model model) {
 		double minPrice;
@@ -131,25 +125,18 @@ public class ProductController {
 			return "productCatalog";
 		}
 		System.out.println("min price  " + minPrice + "    maxprice  " + maxPrice);
-		// Call the filterProductsByPriceRange() method from the DAO
 		List<ProductStockPrice> filteredList = pdaoimp.filterProductsByPriceRange(productList, minPrice, maxPrice);
 		model.addAttribute("products", filteredList);
-		System.out.println(filteredList + "in filterProducts");
 		return "productCatalog";
 	}
-
+	// Get the search products method
 	@GetMapping("/searchProducts")
 	public String searchProducts(@RequestParam("search") String search, Model model) {
 		List<ProductStockPrice> productList = pdaoimp.searchproducts(search); // Assuming the method name is
-		for (ProductStockPrice p : productList) {
-			System.out.print("HIII SEARCH" + p.getProd_title());
-
-		}
-
 		model.addAttribute("products", productList);
 		return "productCatalog"; // Assuming "productCatalog" is the name of your view file
 	}
-
+	// check pincode availability
 	@PostMapping("/checkPincode")
 	@ResponseBody
 	public String checkPincode(@RequestParam("pincode") int pincode) {
