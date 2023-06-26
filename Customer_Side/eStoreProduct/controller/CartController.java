@@ -3,8 +3,6 @@ package eStoreProduct.controller;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-// import eStoreProduct.BLL.BLLClass;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +42,7 @@ public class CartController {
 		this.sdao = sdao;
 		BLL = b;
 	}
-//add the product to cart
+//method to add the product to cart
 	@GetMapping("/addToCart")
 	@ResponseBody
 	public String addToCart(@RequestParam(value = "productId", required = true) int productId, Model model,
@@ -67,7 +65,7 @@ public class CartController {
 		}
 	}
 
-//display the cart items
+//display the cart items controller method 
 	@RequestMapping(value = "/cartDisplay", method = RequestMethod.GET)
 	public String getSignUpPage(Model model, HttpSession session) {
 		double cartt = 0;
@@ -91,7 +89,7 @@ public class CartController {
 
 		}
 	}
- //when signok cart items stored into customer cart
+ //when signok cart items stored into customer cart method
 	@RequestMapping(value = "/signOk", method = RequestMethod.GET)
 	public String getHomeFinal(@RequestParam("em") String email, @RequestParam("ps") String psd, Model model,
 			HttpSession session) {
@@ -121,7 +119,7 @@ public class CartController {
 
 		return "home";
 	}
-//remove product cart
+//remove product from cart
 	@GetMapping("/removeFromCart")
 	@ResponseBody
 	public String removeFromCart(@RequestParam(value = "productId", required = true) int productId, Model model,
@@ -143,7 +141,7 @@ public class CartController {
 		}
 
 	}
-//update the quantity of product
+//update the quantity of product in cart 
 	@PostMapping("/updateQuantity")
 	@ResponseBody
 	public String updateQuantity(@RequestParam(value = "productId", required = true) int productId,
@@ -152,15 +150,12 @@ public class CartController {
 		double cartcost = 0.0;
 		custCredModel cust1 = (custCredModel) session.getAttribute("customer");
 		if (cust1 != null) {
-			// System.out.println("custid "+cust1.getCustId());
 			cartModel cart = new cartModel(cust1.getCustId(), productId, quantity);
 			cartimp.updateQty(cart);
 			List<ProductStockPrice> products = cartimp.getCartProds(cust1.getCustId());
 			session.setAttribute("products", products);
 			cartcost = (BLL.getCartCost(cust1.getCustId()));
 			String ccost = String.valueOf(cartcost);
-			// model.addAttribute("cartcost",cartcost);
-			System.out.println("done updating quantity");
 			return ccost;
 		} else {
 			for (ProductStockPrice product : alist) {
@@ -179,13 +174,10 @@ public class CartController {
 		double cartcost = 0.0;
 		custCredModel cust1 = (custCredModel) session.getAttribute("customer");
 		if (cust1 != null) {
-			// System.out.println("custid "+cust1.getCustId());
 			List<ProductStockPrice> products = cartimp.getCartProds(cust1.getCustId());
 			session.setAttribute("products", products);
 			cartcost = (BLL.getCartCost(cust1.getCustId()));
 			String ccost = String.valueOf(cartcost);
-			// model.addAttribute("cartcost",cartcost);
-			System.out.println("done updating quantity");
 			return ccost;
 		} else {
 			cartcost = (BLL.getCartCost(alist));
