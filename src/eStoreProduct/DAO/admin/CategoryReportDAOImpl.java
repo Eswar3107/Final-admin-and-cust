@@ -15,9 +15,10 @@ public class CategoryReportDAOImpl implements CategoryReportDAO {
 	@PersistenceContext
 	private EntityManager entityManager;
 
+	//method to get report of the categories
 	@Transactional
 	@Override
-	public List<CategoryReportViewModel> getCatRep() {
+	public List<CategoryReportViewModel> getCategoryReport() {
 
 		String hql = "select  new eStoreProduct.model.admin.output.CategoryReportViewModel(spc.id,spc.prct_title,count(*),sum(sop.price),sum(sop.gst),sum(sop.quantity)) \n"
 				+ "	    from SlamOrderModel so,OrderProds sop,SlamProduct sp,productCategoryModel spc \n"
@@ -25,16 +26,6 @@ public class CategoryReportDAOImpl implements CategoryReportDAO {
 
 		List<CategoryReportViewModel> result = entityManager.createQuery(hql, CategoryReportViewModel.class)
 				.getResultList();
-
-		/*
-		 * List<CategoryReportViewModel> report = new ArrayList<>(); for (Object[] row : result) {
-		 * CategoryReportViewModel viewModel = new CategoryReportViewModel(); viewModel.setPtct_id((int) row[0]);
-		 * viewModel.setPtct_name((String) row[1]); viewModel.setTotal_gst((double) row[2]);
-		 * viewModel.setTotal_sales(((Long) row[3]).intValue()); viewModel.setTotal_amount((double) row[4]);
-		 * viewModel.setTotal_products((int) row[5]); report.add(viewModel); }
-		 */
-		System.out.println("in catr dao");
-		System.out.println(result);
 		return result;
 
 	}
