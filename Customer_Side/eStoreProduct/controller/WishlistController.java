@@ -30,19 +30,15 @@ public class WishlistController {
 	@ResponseBody
 	public String addToWishlist(@RequestParam(value = "productId", required = true) int productId, Model model,
 			HttpSession session) throws NumberFormatException, SQLException {
-		System.out.println("add to wishlist called1");
 		custCredModel cust = (custCredModel) session.getAttribute("customer");
 		wishlistdao.addToWishlist(productId, cust.getCustId());
 		return "Item added to wishlist";
 	}
-//remove product to wishlist
+//remove product from  wishlist
 @GetMapping("/removeFromWishlist")
 	@ResponseBody
 	public String removeFromWishlist(@RequestParam(value = "productId", required = true) int productId, Model model,
 			HttpSession session) throws NumberFormatException, SQLException {
-		System.out.println("remove from wishlist called1");
-		// ProductDAO pdao = new ProductDAO();
-		System.out.println("remove from wishlist called2");
 		custCredModel cust = (custCredModel) session.getAttribute("customer");
 		wishlistdao.removeFromWishlist(productId, cust.getCustId());
 		return "Item removed from wishlist";
@@ -51,14 +47,11 @@ public class WishlistController {
 	@GetMapping("/wishlistItems")
 	 @ResponseBody
 	public String userWishlistItems(Model model, HttpSession session) throws NumberFormatException, SQLException {
-		System.out.println("wishlist called1");
 		custCredModel cust1 = (custCredModel) session.getAttribute("customer");
 		List<ProductStockPrice> products = wishlistdao.getWishlistProds(cust1.getCustId());
 
-		// Set the products attribute in the model
 		model.addAttribute("products", products);
 
-		// Forward to the wishlist.jsp view
 		return "wishlistCatalog";
 	}
 
