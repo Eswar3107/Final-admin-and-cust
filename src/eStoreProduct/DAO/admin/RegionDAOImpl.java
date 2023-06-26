@@ -23,29 +23,33 @@ public class RegionDAOImpl implements RegionDAO {
 
 
 
+	//method to get all the regions available
 	@Override
 	@Transactional
 	public List<RegionsOutput> getRegions() {
 	 List<RegionsOutput> regions=null;
 		try {
+			//create JPA query
             TypedQuery<RegionsOutput> query = entityManager.createQuery("SELECT NEW eStoreProduct.model.admin.output.RegionsOutput("
             		+ "r.regionId, r.regionName,r.regionPinFrom,r.regionPinTo,r.regionSurcharge,r.regionPriceWaiver)"
             		+ " FROM RegionModel r", RegionsOutput.class);
+			//execute query
             regions = query.getResultList();
-            System.out.print("in getting all regions\n");
-            //System.out.print(regions);
+            
             return regions;
         } catch (Exception e) {
-            // Handle the exception appropriately (e.g., logging, throwing custom exception, etc.)
+           
             e.printStackTrace();
-            return Collections.emptyList(); // or throw an exception if required
+            return Collections.emptyList(); 
         }
 	}
 
+	//method to add a new region
 	@Override
 	@Transactional
 	public void addRegion(Regions reg) {
 		RegionModel reg1=new RegionModel() ;
+		//set all the object attributes
 		reg1.setRegionId(reg.getRegionId());
 		reg1.setRegionName(reg.getRegionName());
 		reg1.setRegionPinFrom(reg.getRegionPinFrom());
@@ -53,24 +57,27 @@ public class RegionDAOImpl implements RegionDAO {
 		reg1.setRegionPriceWaiver(reg.getRegionPriceWaiver());
 		reg1.setRegionSurcharge(reg.getRegionSurcharge());
 		try{
+			//execute query
         		entityManager.merge(reg1);
 			return true;
 			
 		}
 		catch(Exception e){
-			System.out.println(e.stackTrtace());
+			
 			return false;
 		}
 			
     }
 	
-	
+	//remove existing region
 	@Override
 	@Transactional
 	public void removeRegion(int id) {
 		try{
+			//get the region if existing 
 		RegionModel region = entityManager.find(RegionModel.class, id);
 	        if (region != null) {
+			//remove the region
 	            entityManager.remove(region);
 			return true;
        		 }
@@ -80,7 +87,6 @@ public class RegionDAOImpl implements RegionDAO {
 			}
     		}
 		catch(Exception e){
-			System.out.println(e.stackTrtace());
 			return false;
 		}
 		
