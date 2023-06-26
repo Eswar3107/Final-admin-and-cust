@@ -8,8 +8,6 @@ import eStoreProduct.model.admin.output.AdminViewPayments;
 public interface AdminViewPaymentDAO {
 
 	public List<AdminViewPayments> getPayments();
-	
-	//public List<AdminViewPayments> getDatePayments();
 
 	public List<AdminViewPayments> getDatePayments(Timestamp date1, Timestamp date2);
 	
