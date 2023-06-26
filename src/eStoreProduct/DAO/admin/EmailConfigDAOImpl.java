@@ -17,6 +17,7 @@ public class EmailConfigDAOImpl implements EmailConfigDAO {
 	private final String SELECT_EMAIL = "SELECT e FROM EmailConfigModel e WHERE e.id = 1";
 	private final String UPDATE_EMAIL = "UPDATE EmailConfigModel e SET e.email = :email, e.pwd = :pwd WHERE e.id = 1";
 
+	//method to change the email and password of the admin
 	@Override
 	@Transactional
 	public void changeEmail(EmailConfigModel ecm) {
@@ -24,6 +25,7 @@ public class EmailConfigDAOImpl implements EmailConfigDAO {
 				.executeUpdate();
 	}
 
+	//method to get the email to send the mails to the user
 	@Override
 	@Transactional
 	public EmailConfigModel getEmail() {
