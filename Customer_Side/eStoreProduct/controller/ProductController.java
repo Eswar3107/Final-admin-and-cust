@@ -30,7 +30,7 @@ public class ProductController {
 	public ProductController(ProductDAO productdao) {
 		pdaoimp = productdao;
 	}
-//get products categories list
+//get products categories list controller method
 	@GetMapping("/CategoriesServlet")
 	@ResponseBody
 	public String displayCategories(Model model) {
@@ -44,31 +44,28 @@ public class ProductController {
 
 		return htmlContent.toString();
 	}
-//get categories wise products
+//get categories wise products method
 	@PostMapping("/categoryProducts")
 	public String showCategoryProducts(@RequestParam(value = "category_id", required = false) int categoryId,
 			Model model) {
-		System.out.println("based on category method" + categoryId);
 
 		List<ProductStockPrice> products;
 		if (categoryId != 0) {
 			products = pdaoimp.getProductsByCategory(categoryId);
-			System.out.println("hiiiiiiiiiii");
 		} else {
 			products = pdaoimp.getAllProducts();
-			System.out.println("hiiiiiiiiiiiiiiiiiii");
 		}
 		model.addAttribute("products", products);
 		return "productCatalog";
 	}
-//display the all products
+//display the all products method
 	@GetMapping("/productsDisplay")
 	public String showAllProducts(Model model) {
 		List<ProductStockPrice> products = pdaoimp.getAllProducts();
 model.addAttribute("products", products);
 return "productCatalog";
 	}
-//Individual products description
+//Individual products description 
 	@RequestMapping(value = "/prodDescription", method = RequestMethod.GET)
 	public String getSignUpPage(@RequestParam(value = "productId", required = false) int productId, Model model,
 			HttpSession session) {
@@ -124,7 +121,6 @@ return "productCatalog";
 			model.addAttribute("products", productList);
 			return "productCatalog";
 		}
-		System.out.println("min price  " + minPrice + "    maxprice  " + maxPrice);
 		List<ProductStockPrice> filteredList = pdaoimp.filterProductsByPriceRange(productList, minPrice, maxPrice);
 		model.addAttribute("products", filteredList);
 		return "productCatalog";
