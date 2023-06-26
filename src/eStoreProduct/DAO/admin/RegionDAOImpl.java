@@ -51,7 +51,16 @@ public class RegionDAOImpl implements RegionDAO {
 		reg1.setRegionPinTo(reg.getRegionPinTo());
 		reg1.setRegionPriceWaiver(reg.getRegionPriceWaiver());
 		reg1.setRegionSurcharge(reg.getRegionSurcharge());
-        entityManager.merge(reg1);
+		try{
+        		entityManager.merge(reg1);
+			return true;
+			
+		}
+		catch(Exception e){
+			System.out.println(e.stackTrtace());
+			return false;
+		}
+			
     }
 	
 	
