@@ -26,7 +26,7 @@ public class FairandGStBLL {
 		pdaoimp = productdao;
 		cartimp = ca;
 	}
-
+//method to get cart cost total
 	public double getCartCost(int id) {
 		double cartcost = 0.0;
 		List<ProductStockPrice> cproducts = cartimp.getCartProds(id);
@@ -35,7 +35,7 @@ public class FairandGStBLL {
 		}
 		return cartcost;
 	}
-
+//method returns the totalcost of cart products
 	public double getCartCost(List<ProductStockPrice> al) {
 		double cost = 0.0;
 		for (ProductStockPrice p : al) {
@@ -51,7 +51,7 @@ public class FairandGStBLL {
 		}
 		return gst;
 	}
-
+//method to calculate the total fair for single buying product
 	public ProductStockPrice individualTotalfair(custCredModel cust, int pid, int qty) {
 
 		String spin = cust.getCustSpincode();
@@ -74,7 +74,7 @@ public class FairandGStBLL {
 		return p;
 
 	}
-
+//method to calculate and set GSTS for each product
 	public void setgsts(ProductStockPrice p, String spin) {
 		double salecost = p.getPrice();
 		System.out.println("In bll=gstc_id=" + p.getProd_gstc_id());
@@ -111,7 +111,7 @@ public class FairandGStBLL {
 		}
 
 	}
-
+//method to calculate the TotalFair of buying products
 	public void calculateTotalfair(custCredModel cust) {
 		double pr = 0.0;
 		product2 = cartimp.getCartProds(cust.getCustId());
@@ -134,7 +134,7 @@ public class FairandGStBLL {
 		calculatesurcharge(product2, pr, rgn);
 
 	}
-
+//method to calculate the surcharge of each product
 	public void calculatesurcharge(List<ProductStockPrice> products, double totalprice, ServiceableRegion rgn) {
 		double shipcharge = 0.0, wholeshipmentprice = 0.0, shipgst = 0.0;
 		if (totalprice >= 0 && totalprice <= 1000) {
