@@ -25,7 +25,7 @@ public class WishlistController {
 	public WishlistController(WishlistDAO wishlistimp) {
 		wishlistdao = wishlistimp;
 	}
-
+//add product to wishlist
 	@GetMapping("/addToWishlist")
 	@ResponseBody
 	public String addToWishlist(@RequestParam(value = "productId", required = true) int productId, Model model,
@@ -35,8 +35,8 @@ public class WishlistController {
 		wishlistdao.addToWishlist(productId, cust.getCustId());
 		return "Item added to wishlist";
 	}
-
-	@GetMapping("/removeFromWishlist")
+//remove product to wishlist
+@GetMapping("/removeFromWishlist")
 	@ResponseBody
 	public String removeFromWishlist(@RequestParam(value = "productId", required = true) int productId, Model model,
 			HttpSession session) throws NumberFormatException, SQLException {
@@ -47,9 +47,9 @@ public class WishlistController {
 		wishlistdao.removeFromWishlist(productId, cust.getCustId());
 		return "Item removed from wishlist";
 	}
-
+//display the wishlist items
 	@GetMapping("/wishlistItems")
-	// @ResponseBody
+	 @ResponseBody
 	public String userWishlistItems(Model model, HttpSession session) throws NumberFormatException, SQLException {
 		System.out.println("wishlist called1");
 		custCredModel cust1 = (custCredModel) session.getAttribute("customer");
