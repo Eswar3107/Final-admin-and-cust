@@ -25,6 +25,7 @@ public class adminOrderController {
 		om = omd;
 	}
 
+	//Display the Orders of customers to view and process the orders
 	@GetMapping("/listOrders")
 	public String showOrders(Model model) {
 		List<orderModel> orders = od.getAllOrders();
@@ -32,6 +33,7 @@ public class adminOrderController {
 		return "orderList";
 	}
 
+	//Process the orders 
 	@GetMapping("/processOrders")
 	public String processOrders(@RequestParam(value = "orderId") long orderId,
 			@RequestParam(value = "adminId") int adminId, Model model) {
@@ -44,8 +46,9 @@ public class adminOrderController {
 		return "filteredOrderList";
 	}
 
+	// Filter: Load Orders By Date
 	@GetMapping("/loadOrdersByDate")
-	public String loadOrders(@RequestParam(value = "selectDateFilter") String selectDateFilter, Model model) {
+	public String loadOrdersByDateFilter(@RequestParam(value = "selectDateFilter") String selectDateFilter, Model model) {
 		LocalDateTime currentDate = LocalDateTime.now();
 		LocalDateTime startDate = null;
 		LocalDateTime endDate = null;
