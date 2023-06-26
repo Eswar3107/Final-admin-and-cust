@@ -20,18 +20,20 @@ public class OrderValueWiseShippingChargeDAOImpl implements OrderValueWiseShippi
 	@PersistenceContext
 	private EntityManager entityManager;
 
+	//method to get all the ordervalue wise shipment charges
 	@Override
 	@Transactional
 	public List<OrderValueWiseShippingCharge> getAll() {
 		try {
+			//create JPA query
 			TypedQuery<OrderValueWiseShippingCharge> query = entityManager.createQuery(
 					"SELECT NEW eStoreProduct.model.admin.output.OrderValueWiseShippingCharge("
 							+ "ow.id,ow.from,ow.to,ow.shippingAmount)"
 							+ " FROM eStoreProduct.model.admin.entities.OrderValueWiseShippingChargesModel ow",
 					OrderValueWiseShippingCharge.class);
+			//execute the query
 			List<OrderValueWiseShippingCharge> ordervaluecharges = query.getResultList();
-			System.out.print("in getting all ordervaluecharges\n");
-
+			
 			return ordervaluecharges;
 		} catch (Exception e) {
 			// Handle the exception appropriately (e.g., logging, throwing custom exception, etc.)
@@ -40,10 +42,11 @@ public class OrderValueWiseShippingChargeDAOImpl implements OrderValueWiseShippi
 		}
 	}
 
+	//method to add new charges 
 	@Override
 	@Transactional
 	public boolean addCharge(OrderValueWiseShippingChargesInput ord) {
-		// TODO Auto-generated method stub
+		//create object and set the corresponding values
 		OrderValueWiseShippingChargesModel ordervaluecharges = new OrderValueWiseShippingChargesModel();
 		ordervaluecharges.setId(ord.getId());
 		ordervaluecharges.setFrom(ord.getFrom());
@@ -61,10 +64,12 @@ public class OrderValueWiseShippingChargeDAOImpl implements OrderValueWiseShippi
 		}
 	}
 
+	//method to delete existing charges
 	@Override
 	@Transactional
 	public boolean deleteCharge(OrderValueWiseShippingChargesInput ord) {
 		int id = ord.getId();
+		//get the ordervaluewise corresponding object
 		OrderValueWiseShippingChargesModel ordervaluecharges = entityManager
 				.find(OrderValueWiseShippingChargesModel.class, id);
 		if (ordervaluecharges != null) {
@@ -74,17 +79,21 @@ public class OrderValueWiseShippingChargeDAOImpl implements OrderValueWiseShippi
 		return false;
 	}
 
+	//method to update the existing charges
 	@Override
 	@Transactional
 	public boolean updateCharge(OrderValueWiseShippingChargesInput ord) {
 		try {
 			int id = ord.getId();
+			//create JPA query
 			OrderValueWiseShippingChargesModel ordervaluecharges = entityManager
 					.find(OrderValueWiseShippingChargesModel.class, id);
 			if (ordervaluecharges != null) {
+				//set the attributes to the object
 				ordervaluecharges.setFrom(ord.getFrom());
 				ordervaluecharges.setTo(ord.getTo());
 				ordervaluecharges.setShippingAmount(ord.getShippingAmount());
+				//execute query
 				entityManager.merge(ordervaluecharges);
 				return true;
 			}
