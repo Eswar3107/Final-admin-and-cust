@@ -9,7 +9,7 @@ import eStoreProduct.model.admin.output.RegionsOutput;
 public interface RegionDAO {
 	List<RegionsOutput> getRegions();
 
-	void addRegion(Regions reg);
+	boolean addRegion(Regions reg);
 
 	void removeRegion(int id);
 }
