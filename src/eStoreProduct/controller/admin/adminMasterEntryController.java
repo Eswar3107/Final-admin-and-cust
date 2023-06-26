@@ -27,8 +27,8 @@ public class adminMasterEntryController {
 	private final CategoryDAO cdaoimp;
 
 	@Autowired
-	adminMasterEntryController(stockSummaryDAO stockdao, ProductDAO productdao, CategoryDAO categorydao) {
-		ssd = stockdao;
+	adminMasterEntryController(stockSummaryDAO stockSummDao, ProductDAO productdao, CategoryDAO categorydao) {
+		ssd = stockSummDao;
 		pdaoimp = productdao;
 		cdaoimp = categorydao;
 	}
