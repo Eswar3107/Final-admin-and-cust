@@ -67,9 +67,21 @@ public class RegionDAOImpl implements RegionDAO {
 	@Override
 	@Transactional
 	public void removeRegion(int id) {
+		try{
 		RegionModel region = entityManager.find(RegionModel.class, id);
-        if (region != null) {
-            entityManager.remove(region);
-        }
-    }
+	        if (region != null) {
+	            entityManager.remove(region);
+			return true;
+       		 }
+		else{
+			return false;
+		
+			}
+    		}
+		catch(Exception e){
+			System.out.println(e.stackTrtace());
+			return false;
+		}
+		
+}
 }
