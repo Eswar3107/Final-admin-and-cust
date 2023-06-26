@@ -22,7 +22,7 @@ public class orderProductDAOImp implements orderProductDAO {
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	
+	//method to get all the products of an order
 	@Override
 	@Transactional
 	public List<orderProductsModel> getOrderWiseOrderProducts(int orderid) {
@@ -30,25 +30,21 @@ public class orderProductDAOImp implements orderProductDAO {
 		String query = "SELECT NEW eStoreProduct.model.admin.output.orderProductsModel("
 				+ "op.orderId,op.productId,op.quantity,op.gst,op.price,op.shipmentStatus) from orderProductModel op where "
 				+ "op.orderId=:orderid";
+		List<orderProductsModel> l=null;
 		try {
-		List<orderProductsModel> l = entityManager.createQuery(
+		l = entityManager.createQuery(
 				query,
 				orderProductsModel.class).setParameter("orderid", orderid).getResultList();
-				
-
-	
-			for (orderProductsModel lis : l)
-				System.out.println("Inside" + lis);
 			return l;
 		} catch (Exception e) {
-			// Handle the exception appropriately (e.g., logging, throwing custom exception, etc.)
 			e.printStackTrace();
-			return Collections.emptyList(); // or throw an exception if required
+			return Collections.emptyList(); 
 		}
 		
 	
 	}
 
+	//method to update the status of the product
 	@Override
 	@Transactional
 	public int updateOrderProductStatus(orderProductInput op) {
