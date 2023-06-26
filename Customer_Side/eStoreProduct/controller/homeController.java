@@ -24,67 +24,45 @@ public class homeController {
 	customerDAO cdao;
 	cartDAO cd;
 
+	//dependency injection
 	@Autowired
 	public homeController(customerDAO customerdao, cartDAO cd) {
 		cdao = customerdao;
 		this.cd = cd;
 
 	}
-
+        //url mapping for home page
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String getHome(Model model) {
-		// System.out.println("Home Page");
-		model.addAttribute("fl", flag);
-
+	public String getHomePage(Model model) {
 		// call the view
 		return "home";
 	}
-
+        //url mapping for logged in user to get back to home
 	@RequestMapping(value = "/loggedIn", method = RequestMethod.GET)
-	public String getHomeLogged(Model model) {
-		// System.out.println("Home Page");
-
+	public String getHomeFoeLoggedUser(Model model) {
+		//setting flag variable to maintain status and add to model
 		flag = true;
 		model.addAttribute("fl", flag);
 		// call the view
 		return "home";
 	}
-
+        //url mapping to open signup page for new customer
 	@RequestMapping(value = "/signUp", method = RequestMethod.GET)
 	public String getSignUpPage(Model model) {
-		// System.out.println("Sign Up Page");
-
 		// call the view
 		return "signUp";
 	}
-
+        //url mapping to open signin page  
 	@RequestMapping(value = "/signIn", method = RequestMethod.GET)
 	public String getSignInPage(Model model) {
-		// System.out.println("Sign In Page");
-
 		// call the view
 		return "signIn";
 	}
-
-	/*
-	 * @RequestMapping(value = "/signOk", method = RequestMethod.GET) public String getHomeFinal(Model model,HttpSession
-	 * session) {
-	 * 
-	 * //System.out.println("checking sign in"); //System.out.println(email + " " + //psd); /// custCredModel cust =
-	 * cdao.getCustomer(email, psd); //System.out.println("object received when logged in " + cust); try {
-	 * cdao.updatelastlogin(cust.getCustId()); session.setAttribute("customer",cust); session.setAttribute("fl", true);
-	 * } catch (Exception e) { System.out.println(e); } //else { session.setAttribute("fl", false); }
-	 * 
-	 * return "redirect:/"; // Redirect to the home page ("/") }
-	 */
-
-	
-
+        //url mapping when customer completed the signup form
 	@RequestMapping(value = "/signInCreateAccount", method = RequestMethod.POST)
 	public String createAccount(@Validated custCredModel ccm, Model model) {
-		// System.out.println("sign Up page creating account");
+		//add customer to database
 		boolean b = cdao.createCustomer(ccm);
-
 		// set it to the model
 		if (b) {
 			model.addAttribute("customer", ccm);
@@ -92,16 +70,18 @@ public class homeController {
 		// call the view
 		return "createdMsg";
 	}
-
+        //url mapping to redirect to home page by changing login status
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String userlogout(Model model, HttpSession session) {
+		//get the logged in session customer
 		custCredModel cust = (custCredModel) session.getAttribute("customer");
-		/* model.addAttribute("cust", cust); */
+		//change the login status and add to model
 		flag = false;
 		model.addAttribute("fl", flag);
 		if (model.containsAttribute("customer"))
 			model.addAttribute("customer", null);
 		session.invalidate();
+		//call view
 		return "home";
 	}
 
