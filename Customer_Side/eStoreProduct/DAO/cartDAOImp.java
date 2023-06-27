@@ -33,7 +33,7 @@ public class cartDAOImp implements cartDAO {
 	private String update_qty = "update slam_cart set quantity=? where cust_id=? and prod_id=?";
 	private String insert = "insert into slam_cart values(?,?,?);";
 	private String select_checkcart_products = "SELECT pd.*,sc.* FROM slam_Products pd, slam_cart sc WHERE sc.cust_id = ? AND sc.prod_id = pd.prod_id and pd.prod_id=?";
-  //add the product to customet cart
+  //method to add the product to customet cart
 	public String addToCart(int productId, int customerId) {
 		List<ProductStockPrice> cproducts = jdbcTemplate.query(select_checkcart_products,
 				new CartProductRowMapper(prodStockDAO), customerId, productId);
@@ -55,7 +55,7 @@ public class cartDAOImp implements cartDAO {
 		}
 		return "Already added to cart";
 	}
-//remove item from cart
+//method to remove item from cart
 	public int removeFromCart(int productId, int customerId) {
 		int r = jdbcTemplate.update(delete_slam_cart, customerId, productId);
 		if (r > 0) {
@@ -65,7 +65,7 @@ public class cartDAOImp implements cartDAO {
 			return -1;
 		}
 	}
-//get cart products
+//method to get all cart products
 	public List<ProductStockPrice> getCartProds(int cust_id) {
 		System.out.println(cust_id + " from model");
 		try {
@@ -111,7 +111,7 @@ public class cartDAOImp implements cartDAO {
 			return hsnCodeModel;
 		});
 	}
-//get servicable regions data
+//method to get the servicable regions data
 	public ServiceableRegion getRegionByPincode(int pincode) {
 		String query = "SELECT * FROM slam_regions WHERE ? BETWEEN region_pin_from AND region_pin_to";
 
