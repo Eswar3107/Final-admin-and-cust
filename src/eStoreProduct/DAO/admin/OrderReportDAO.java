@@ -4,6 +4,6 @@ import java.util.List;
 
 import eStoreProduct.model.admin.entities.SlamOrderModel;
 
-public interface OrderRepDAO {
+public interface OrderReportDAO {
     List<SlamOrderModel> getAllOrders();
 }
