@@ -30,7 +30,7 @@ public class CategoryDAOImp implements CategoryDAO{
 	public CategoryDAOImp(DataSource dataSource) {
 		jdbcTemplate = new JdbcTemplate(dataSource);
 	}
-	
+	//add new category method to database
 	@Override
 	public boolean addNewCategory(Category catg) {
 		int c_id = jdbcTemplate.queryForObject(SQL_GET_TOP_CATGID, int.class);
@@ -39,7 +39,7 @@ public class CategoryDAOImp implements CategoryDAO{
 
 		return jdbcTemplate.update(SQL_INSERT_CATEGORY, c_id, catg.getPrct_title(), catg.getPrct_desc()) > 0;
 	}
-	
+	//method to get the all categories
 	public List<Category> getAllCategories() {
 		List<Category> categories = new ArrayList<>();
 
