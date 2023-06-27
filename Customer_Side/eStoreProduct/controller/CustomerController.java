@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import eStoreProduct.BLL.BLL;
-import eStoreProduct.BLL.BLLClass2;
+import eStoreProduct.FairandGStBLL.BLL;
+import eStoreProduct.OrderIdCreationBLL.BLLClass2;
 import eStoreProduct.DAO.OrderDAO;
 import eStoreProduct.DAO.ProductDAO;
 import eStoreProduct.DAO.StockUpdaterDAO;
@@ -35,8 +35,8 @@ import eStoreProduct.utility.ProductStockPrice;
 public class CustomerController {
 	customerDAO cdao;
 	cartDAO cartimp;
-	BLL BLL;
-	BLLClass2 bl2;
+	FairandGStBLL BLL;
+	OrderIdCreationBLL bl2;
 	String buytype = null;
 	ProductDAO pdaoimp;
 	OrderDAO odao;
@@ -48,7 +48,7 @@ public class CustomerController {
 
 	@Autowired
 	public CustomerController(cartDAO cartdao, customerDAO customerdao, StockUpdaterDAO stckdao, orderModel om,
-			BLLClass2 bl2, BLL bl1, ProductDAO productdao, OrderDAO odao, walletDAO w) {
+			OrderIdCreationBLL bl2, FairandGStBLL bl1, ProductDAO productdao, OrderDAO odao, walletDAO w) {
 		cdao = customerdao;
 		cartimp = cartdao;
 		this.bl2 = bl2;
