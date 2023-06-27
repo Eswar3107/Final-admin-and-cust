@@ -22,7 +22,7 @@ public class FairandGStBLL {
 	List<ProductStockPrice> product2 = null;
 
 	@Autowired
-	public BLL(ProductDAO productdao, cartDAO ca) {
+	public FairandGStBLL(ProductDAO productdao, cartDAO ca) {
 		pdaoimp = productdao;
 		cartimp = ca;
 	}
