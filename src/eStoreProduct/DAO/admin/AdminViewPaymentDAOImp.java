@@ -1,48 +1,63 @@
 package eStoreProduct.DAO.admin;
+
+
+
 import java.sql.Timestamp;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
-import eStoreProduct.model.AdminViewPayments;
-import eStoreProduct.model.AdminViewPaymentsMapper;
+import eStoreProduct.model.admin.output.AdminViewPayments;
+import eStoreProduct.model.admin.entities.orderModel;
 
 @Component
 public class AdminViewPaymentDAOImp implements AdminViewPaymentDAO{
 
-	JdbcTemplate jdbcTemplate;
-	@Autowired
-	public AdminViewPaymentDAOImp(DataSource dataSource) {
-		jdbcTemplate = new JdbcTemplate(dataSource);
-	}
-	
-	private String get_payments="select ordr_id,ordr_billno,ordr_odate,ordr_total,ordr_payreference from slam_orders";
-	private String get_Between_dates="select ordr_id,ordr_billno,ordr_odate,ordr_total,ordr_payreference from slam_ordersdup where ordr_odate between ? and ?";
-	private String get_filter_payments="select ordr_id,ordr_billno,ordr_odate,ordr_total,ordr_payreference from slam_ordersdup where ordr_total between ? and ?";
-	private String get_max_payments="select ordr_id,ordr_billno,ordr_odate,ordr_total,ordr_payreference from slam_ordersdup where ordr_total>?";
+	@PersistenceContext
+	private EntityManager entityManager;
+
+	//getting all the payments done
 	@Override
+	@Transactional
 	public List<AdminViewPayments> getPayments() {
-		return jdbcTemplate.query(get_payments, new AdminViewPaymentsMapper());
 		
+	        TypedQuery<AdminViewPayments> query = entityManager.createQuery("SELECT new eStoreProduct.model.admin.output.AdminViewPayments(om.id,om.billNumber,om.orderDate,om.total, om.paymentReference)"
+	        		+" FROM orderModel om", AdminViewPayments.class);
+	        return query.getResultList();
+	    }
+	//getting the payments done netween the dates selected	
+	@Override
+	@Transactional	
+	public List<AdminViewPayments> getPaymentsBetweenDates(Timestamp date1, Timestamp date2) {
+    TypedQuery<AdminViewPayments> query = entityManager.createQuery("SELECT avp FROM AdminViewPayments avp WHERE avp.paydate BETWEEN :date1 AND :date2", AdminViewPayments.class);
+    query.setParameter("date1", date1);
+    query.setParameter("date2", date2);
+    return query.getResultList();
 	}
-	public List<AdminViewPayments> getPaymentsBetweenDates(Timestamp date1,Timestamp date2) {
-		return jdbcTemplate.query(get_Between_dates, new AdminViewPaymentsMapper(),date1,date2);
-		
-		//return null;
-	}
-	
-	public List<AdminViewPayments> getPaymentsInThePriceRange(double p1,double p2)
-	{
-		return jdbcTemplate.query(get_filter_payments, new AdminViewPaymentsMapper(),p1,p2);
-	}
-	
-	public List<AdminViewPayments> getMaxPricePayment(double p1)
-	{
-		return jdbcTemplate.query(get_max_payments, new AdminViewPaymentsMapper(),p1);
+	//getting the payments done in a selected price range
+	@Override
+	@Transactional
+	public List<AdminViewPayments> getPaymentsInThePriceRange(double p1, double p2) {
+    TypedQuery<AdminViewPayments> query = entityManager.createQuery("SELECT avp FROM AdminViewPayments avp WHERE avp.ordertotal BETWEEN :p1 AND :p2", AdminViewPayments.class);
+    query.setParameter("p1", p1);
+    query.setParameter("p2", p2);
+    return query.getResultList();
 	}
 
+	//getting the highest payment done
+	@Override
+	@Transactional
+	public List<AdminViewPayments> getMaxPricePayment(double p1) {
+		    TypedQuery<AdminViewPayments> query = entityManager.createQuery("SELECT avp FROM AdminViewPayments avp WHERE avp.ordertotal > :p1", AdminViewPayments.class);
+		    query.setParameter("p1", p1);
+		    return query.getResultList();
+		}
 }
